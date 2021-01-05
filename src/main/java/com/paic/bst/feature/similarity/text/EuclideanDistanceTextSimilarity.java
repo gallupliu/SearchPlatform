@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.paic.bst.feature.utils.AtomicFloat;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * description: EuclideanDistanceTextSimilarity
@@ -21,6 +22,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class EuclideanDistanceTextSimilarity extends TextSimilarity{
     /**
      * 判定相似度的方式：欧几里得距离
@@ -75,9 +77,9 @@ public class EuclideanDistanceTextSimilarity extends TextSimilarity{
             //score = 1 / (euclideanDistance+1);
             score = BigDecimal.valueOf(1).divide(BigDecimal.valueOf(euclideanDistance + 1), 9, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("文本1和文本2的欧几里得距离：" + euclideanDistance);
-            LOGGER.debug("文本1和文本2的相似度分值：1 / (" + euclideanDistance + "+1)=" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("文本1和文本2的欧几里得距离：" + euclideanDistance);
+            log.debug("文本1和文本2的相似度分值：1 / (" + euclideanDistance + "+1)=" + score);
         }
         return score;
     }

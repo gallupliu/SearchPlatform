@@ -1,4 +1,4 @@
-package com.paic.bst.feature.utils;
+package com.paic.bst.util;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

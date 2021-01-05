@@ -4,6 +4,8 @@ package com.paic.bst.feature.similarity.text;
 import java.util.List;
 
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * description: JaroDistanceTextSimilarity
  * 文本相似度计算
@@ -13,6 +15,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class JaroDistanceTextSimilarity extends TextSimilarity{
     protected String shorterText = null;
     protected String longerText = null;
@@ -35,10 +38,10 @@ public class JaroDistanceTextSimilarity extends TextSimilarity{
         //计算文本1和文本2的Jaro距离
         //Jaro距离也就是相似度分值
         double score = jaroDistance(text1.toString(), text2.toString());
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("文本1：" + text1.toString());
-            LOGGER.debug("文本2：" + text2.toString());
-            LOGGER.debug("文本1和文本2的相似度分值：" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("文本1：" + text1.toString());
+            log.debug("文本2：" + text2.toString());
+            log.debug("文本1和文本2的相似度分值：" + score);
         }
         return score;
     }

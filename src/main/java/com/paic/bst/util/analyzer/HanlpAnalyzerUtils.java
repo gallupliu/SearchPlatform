@@ -1,6 +1,9 @@
 package com.paic.bst.util.analyzer;
 
 
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.common.Term;
+import com.paic.bst.feature.utils.tokenizer.Word;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -14,6 +17,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * description: hanlpAnalyzerUtils
@@ -34,7 +38,6 @@ public class HanlpAnalyzerUtils {
         hanlpAnalyzerUtils.client = this.client;
     }
 
-//    private static final Logger log = LoggerFactory.getLogger(HanlpAnalyzerUtils.class);
     public static final String DEFAULT_ANALYZER = "hanlp";
     public static final String INDEX_ANALYZER = "hanlp_index";
 
@@ -61,9 +64,29 @@ public class HanlpAnalyzerUtils {
         return result;
     }
 
-    public static void main(String[] args) {
-        HanlpAnalyzerUtils hanlpAnalyzerUtils = new HanlpAnalyzerUtils();
+    public List<Word> esSegment(String query){
+        return esSegment(query,DEFAULT_ANALYZER);
+    }
 
-        hanlpAnalyzerUtils.getTokens("中国平安技术（深圳）责任有限公司");
+    public List<Word> esSegment(String query,String analyzer){
+        List<Word> result = new ArrayList<>();
+
+        AnalyzeRequest request = AnalyzeRequest.withGlobalAnalyzer(analyzer,query);
+        try{
+            AnalyzeResponse reponse = client.indices().analyze(request, RequestOptions.DEFAULT);
+            if(reponse != null){
+                List<AnalyzeResponse.AnalyzeToken> tokens = reponse.getTokens();
+                if(!CollectionUtils.isEmpty(tokens)){
+                    for(AnalyzeResponse.AnalyzeToken token:tokens){
+                        Word word = new Word(token.getTerm(),token.getType());
+                        result.add(word);
+                    }
+                }
+            }
+        }catch (IOException e){
+            log.error("call es to segment failed!",e);
+        }
+
+        return result;
     }
 }

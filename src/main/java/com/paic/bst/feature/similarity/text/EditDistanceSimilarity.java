@@ -3,6 +3,8 @@ package com.paic.bst.feature.similarity.text;
 
 import java.util.List;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * description: EditDistanceSimilarity
  * 编辑距离（Edit Distance）相似度计算
@@ -19,6 +21,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class EditDistanceSimilarity extends TextSimilarity{
     /**
      * 计算相似度分值
@@ -43,12 +46,12 @@ public class EditDistanceSimilarity extends TextSimilarity{
         //计算文本1和文本2的编辑距离
         int editDistance = editDistance(text1.toString(), text2.toString());
         double score = (1 - editDistance / (double) maxTextLength);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("文本1：" + text1.toString());
-            LOGGER.debug("文本2：" + text2.toString());
-            LOGGER.debug("文本1和文本2的编辑距离：" + editDistance);
-            LOGGER.debug("文本1和文本2的最大长度：" + maxTextLength);
-            LOGGER.debug("文本1和文本2的相似度分值：1 - " + editDistance + " / (double)" + maxTextLength + "=" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("文本1：" + text1.toString());
+            log.debug("文本2：" + text2.toString());
+            log.debug("文本1和文本2的编辑距离：" + editDistance);
+            log.debug("文本1和文本2的最大长度：" + maxTextLength);
+            log.debug("文本1和文本2的相似度分值：1 - " + editDistance + " / (double)" + maxTextLength + "=" + score);
         }
         return score;
     }

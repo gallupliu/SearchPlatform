@@ -4,8 +4,16 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
+import com.paic.bst.util.analyzer.HanlpAnalyzerUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.AnalyzeRequest;
+import org.elasticsearch.client.indices.AnalyzeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,9 +28,8 @@ import java.util.stream.Collectors;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class Tokenizer {
-
-    private static final Logger logger = LoggerFactory.getLogger(Tokenizer.class);
 
     public static List<Word> segment(String sentence) {
         List<Word> results = new ArrayList<>();
@@ -43,6 +50,8 @@ public class Tokenizer {
 
         return results;
     }
+
+
 
     public static void fileSegment(String inputFilePath, String outputFilePath) {
         fileSegment(HanLP.newSegment(), inputFilePath, outputFilePath);
@@ -80,7 +89,7 @@ public class Tokenizer {
             System.out.println("segment result save：" + outPath);
             System.out.println("total " + allCount + " chars, " + lexCount + " words, spend" + (end - start) + "ms ");
         } catch (IOException e) {
-            logger.error("IO error: " + e.getLocalizedMessage());
+            log.error("IO error: " + e.getLocalizedMessage());
         }
     }
 }

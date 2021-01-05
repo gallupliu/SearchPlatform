@@ -9,12 +9,15 @@ import java.util.Set;
 
 import com.paic.bst.feature.utils.AtomicFloat;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * description: ManhattanDistanceTextSimilarity
  * date: 2020/12/31 2:40 下午
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class ManhattanDistanceTextSimilarity extends TextSimilarity{
     /**
      * 判定相似度的方式：曼哈顿距离
@@ -65,9 +68,9 @@ public class ManhattanDistanceTextSimilarity extends TextSimilarity{
             //score = 1 / (double)(manhattanDistance.get()+1);
             score = BigDecimal.valueOf(1).divide(BigDecimal.valueOf(manhattanDistance.get() + 1), 9, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("文本1和文本2的曼哈顿距离：" + manhattanDistance.get());
-            LOGGER.debug("文本1和文本2的相似度分值：1 / (double)(" + manhattanDistance.get() + "+1)=" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("文本1和文本2的曼哈顿距离：" + manhattanDistance.get());
+            log.debug("文本1和文本2的相似度分值：1 / (double)(" + manhattanDistance.get() + "+1)=" + score);
         }
         return score;
     }

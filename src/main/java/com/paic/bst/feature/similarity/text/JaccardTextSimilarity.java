@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * description: JaccardTextSimilarity
  * 文本相似度计算
@@ -22,6 +24,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class JaccardTextSimilarity extends TextSimilarity{
     /**
      * 判定相似度的方式：Jaccard相似性系数
@@ -54,10 +57,10 @@ public class JaccardTextSimilarity extends TextSimilarity{
         int unionSize = unionSet.size();
         //相似度分值
         double score = intersectionSize / (double) unionSize;
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("交集的大小：" + intersectionSize);
-            LOGGER.debug("并集的大小：" + unionSize);
-            LOGGER.debug("相似度分值=" + intersectionSize + "/(double)" + unionSize + "=" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("交集的大小：" + intersectionSize);
+            log.debug("并集的大小：" + unionSize);
+            log.debug("相似度分值=" + intersectionSize + "/(double)" + unionSize + "=" + score);
         }
         return score;
     }

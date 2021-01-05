@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * description: DiceTextSimilarity
  *  文本相似度计算
@@ -19,6 +21,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class DiceTextSimilarity extends TextSimilarity{
     /**
      * 计算相似度分值
@@ -45,13 +48,13 @@ public class DiceTextSimilarity extends TextSimilarity{
 
         //相似度分值
         double score = 2 * intersectionSize / (double) (set1Size + set2Size);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("集合1：" + words1);
-            LOGGER.debug("集合2：" + words2);
-            LOGGER.debug("集合1的大小：" + set1Size);
-            LOGGER.debug("集合2的大小：" + set2Size);
-            LOGGER.debug("交集的大小：" + intersectionSize);
-            LOGGER.debug("相似度分值=2*" + intersectionSize + "/(double)(" + set1Size + "+" + set2Size + ")=" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("集合1：" + words1);
+            log.debug("集合2：" + words2);
+            log.debug("集合1的大小：" + set1Size);
+            log.debug("集合2的大小：" + set2Size);
+            log.debug("交集的大小：" + intersectionSize);
+            log.debug("相似度分值=2*" + intersectionSize + "/(double)(" + set1Size + "+" + set2Size + ")=" + score);
         }
         return score;
     }

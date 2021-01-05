@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.paic.bst.feature.utils.AtomicFloat;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * description: CosineSimilarity

@@ -1,7 +1,7 @@
 package com.paic.bst.feature.similarity.text;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.paic.bst.util.analyzer.HanlpAnalyzerUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,21 +11,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.StringUtils;
 import com.paic.bst.feature.utils.tokenizer.Word;
 import com.paic.bst.feature.utils.tokenizer.Tokenizer;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * description: TextSimilarity
  * date: 2020/12/31 11:11 上午
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public abstract class TextSimilarity implements ITextSimilarity{
+    @Autowired
+    HanlpAnalyzerUtils hanlpAnalyzerUtils;
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(TextSimilarity.class);
 
     @Override
     public double getSimilarity(String text1, String text2) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("text1:" + text1);
-            LOGGER.debug("text2:" + text2);
+        if (log.isDebugEnabled()) {
+            log.debug("text1:" + text1);
+            log.debug("text2:" + text2);
         }
         if (StringUtils.isBlank(text1) && StringUtils.isBlank(text2)) {
             return 1.0;
@@ -38,6 +42,8 @@ public abstract class TextSimilarity implements ITextSimilarity{
         }
         List<Word> words1 = Tokenizer.segment(text1);
         List<Word> words2 = Tokenizer.segment(text2);
+//        List<Word> words1 = hanlpAnalyzerUtils.esSegment(text1);
+//        List<Word> words2 = hanlpAnalyzerUtils.esSegment(text2);
         return getSimilarity(words1, words2);
     }
 
@@ -51,20 +57,20 @@ public abstract class TextSimilarity implements ITextSimilarity{
             return 0.0;
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("词列表1：");
-            LOGGER.debug("\t" + words1);
-            LOGGER.debug("词列表2：");
-            LOGGER.debug("\t" + words2);
+        if (log.isDebugEnabled()) {
+            log.debug("词列表1：");
+            log.debug("\t" + words1);
+            log.debug("词列表2：");
+            log.debug("\t" + words2);
         }
 
         double score = getSimilarityImpl(words1, words2);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("score:" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("score:" + score);
         }
         score = (int) (score * 1000000 + 0.5) / (double) 1000000;
-        if (LOGGER.isDebugEnabled())
-            LOGGER.debug("分值，四舍五入：" + score);
+        if (log.isDebugEnabled())
+            log.debug("分值，四舍五入：" + score);
 
         return score;
     }
@@ -78,9 +84,9 @@ public abstract class TextSimilarity implements ITextSimilarity{
         Map<String, AtomicInteger> frequency1 = getFrequency(words1);
         Map<String, AtomicInteger> frequency2 = getFrequency(words2);
         //输出词频统计信息
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("词频统计1：\n{}", getWordsFrequencyString(frequency1));
-            LOGGER.debug("词频统计2：\n{}", getWordsFrequencyString(frequency2));
+        if (log.isDebugEnabled()) {
+            log.debug("词频统计1：\n{}", getWordsFrequencyString(frequency1));
+            log.debug("词频统计2：\n{}", getWordsFrequencyString(frequency2));
         }
         // 标注权重
         words1.parallelStream().forEach(word -> word.setWeight(frequency1.get(word.getName()).floatValue()));
@@ -138,7 +144,7 @@ public abstract class TextSimilarity implements ITextSimilarity{
             if (i.getWeight() != null) {
                 weightMap.put(i.getName(), i.getWeight());
             } else {
-                LOGGER.error("no word weight info:" + i.getName());
+                log.error("no word weight info:" + i.getName());
             }
         });
         return weightMap;

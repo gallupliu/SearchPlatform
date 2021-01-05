@@ -1,8 +1,7 @@
 package com.paic.bst.feature.similarity.text;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -13,8 +12,8 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Slf4j
 public class SimHashPlusHammingDistanceTextSimilarity extends TextSimilarity{
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimHashPlusHammingDistanceTextSimilarity.class);
 
     private int hashBitCount = 128;
 
@@ -50,23 +49,23 @@ public class SimHashPlusHammingDistanceTextSimilarity extends TextSimilarity{
         //计算SimHash值之间的汉明距离
         int hammingDistance = hammingDistance(simHash1, simHash2);
         if (hammingDistance == -1) {
-            LOGGER.error("文本1：" + words1.toString());
-            LOGGER.error("文本2：" + words2.toString());
-            LOGGER.error("文本1SimHash值：" + simHash1);
-            LOGGER.error("文本2SimHash值：" + simHash2);
-            LOGGER.error("文本1和文本2的SimHash值长度不相等，不能计算汉明距离");
+            log.error("文本1：" + words1.toString());
+            log.error("文本2：" + words2.toString());
+            log.error("文本1SimHash值：" + simHash1);
+            log.error("文本2SimHash值：" + simHash2);
+            log.error("文本1和文本2的SimHash值长度不相等，不能计算汉明距离");
             return 0.0;
         }
         int maxDistance = simHash1.length();
         double score = (1 - hammingDistance / (double) maxDistance);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("文本1：" + words1.toString());
-            LOGGER.debug("文本2：" + words2.toString());
-            LOGGER.debug("文本1SimHash值：" + simHash1);
-            LOGGER.debug("文本2SimHash值：" + simHash2);
-            LOGGER.debug("hashBitCount：" + hashBitCount);
-            LOGGER.debug("SimHash值之间的汉明距离：" + hammingDistance);
-            LOGGER.debug("文本1和文本2的相似度分值：1 - " + hammingDistance + " / (double)" + maxDistance + "=" + score);
+        if (log.isDebugEnabled()) {
+            log.debug("文本1：" + words1.toString());
+            log.debug("文本2：" + words2.toString());
+            log.debug("文本1SimHash值：" + simHash1);
+            log.debug("文本2SimHash值：" + simHash2);
+            log.debug("hashBitCount：" + hashBitCount);
+            log.debug("SimHash值之间的汉明距离：" + hammingDistance);
+            log.debug("文本1和文本2的相似度分值：1 - " + hammingDistance + " / (double)" + maxDistance + "=" + score);
         }
         return score;
     }
