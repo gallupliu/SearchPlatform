@@ -34,7 +34,7 @@ public class PreProceessor {
     @Autowired
     EditDistanceSimilarity editDistanceSimilarity;
 
-    @Addressing
+    @Autowired
     EuclideanDistanceTextSimilarity euclideanSimilarity;
 
     @Autowired

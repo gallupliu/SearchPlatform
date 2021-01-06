@@ -54,11 +54,9 @@ public abstract class TextSimilarity implements ITextSimilarity{
         if (text1.equalsIgnoreCase(text2)) {
             return 1.0;
         }
-        List<Word> words1 = Tokenizer.segment(text1);
-        List<Word> words2 = Tokenizer.segment(text2);
-        List<Word> words3 = esUtil.esSegment(text1);
-//        List<Word> words1 = hanlpAnalyzerUtils.esSegment(text1);
-//        List<Word> words2 = hanlpAnalyzerUtils.esSegment(text2);
+
+        List<Word> words1 = hanlpAnalyzerUtils.esSegment(text1);
+        List<Word> words2 = hanlpAnalyzerUtils.esSegment(text2);
         return getSimilarity(words1, words2);
     }
 
