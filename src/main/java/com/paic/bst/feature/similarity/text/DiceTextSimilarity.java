@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import com.paic.bst.feature.utils.tokenizer.Word;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * description: DiceTextSimilarity
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * version: 1.0
  */
 @Slf4j
+@Component
 public class DiceTextSimilarity extends TextSimilarity{
     /**
      * 计算相似度分值

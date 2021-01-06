@@ -1,5 +1,6 @@
 package com.paic.bst.feature.similarity.text;
 
+import com.paic.bst.util.ESUtil;
 import com.paic.bst.util.analyzer.HanlpAnalyzerUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.paic.bst.feature.utils.tokenizer.Word;
 import com.paic.bst.feature.utils.tokenizer.Tokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
 
 /**
  * description: TextSimilarity
@@ -24,6 +28,16 @@ public abstract class TextSimilarity implements ITextSimilarity{
     @Autowired
     HanlpAnalyzerUtils hanlpAnalyzerUtils;
 
+    @Autowired
+    ESUtil esUtil;
+
+    public static TextSimilarity textSimilarity;
+
+    @PostConstruct
+    public void init(){
+        textSimilarity = this;
+        textSimilarity.hanlpAnalyzerUtils = this.hanlpAnalyzerUtils;
+    }
 
     @Override
     public double getSimilarity(String text1, String text2) {
@@ -42,6 +56,7 @@ public abstract class TextSimilarity implements ITextSimilarity{
         }
         List<Word> words1 = Tokenizer.segment(text1);
         List<Word> words2 = Tokenizer.segment(text2);
+        List<Word> words3 = esUtil.esSegment(text1);
 //        List<Word> words1 = hanlpAnalyzerUtils.esSegment(text1);
 //        List<Word> words2 = hanlpAnalyzerUtils.esSegment(text2);
         return getSimilarity(words1, words2);

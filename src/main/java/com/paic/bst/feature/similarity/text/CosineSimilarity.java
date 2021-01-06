@@ -10,6 +10,7 @@ import java.util.Set;
 import com.paic.bst.feature.utils.AtomicFloat;
 import com.paic.bst.feature.utils.tokenizer.Word;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * description: CosineSimilarity
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  * author: gallup
  * version: 1.0
  */
+@Component
 public class CosineSimilarity extends TextSimilarity{
     /**
      * 文本相似度计算

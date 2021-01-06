@@ -3,6 +3,7 @@ package com.paic.bst.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.paic.bst.feature.utils.tokenizer.Word;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.util.EntityUtils;
@@ -166,6 +167,32 @@ public class ESUtil {
             e.printStackTrace();
         }
         return JSONObject.toJSONString(result);
+    }
+
+    public List<Word> esSegment(String query){
+        return esSegment(query,DEFAULT_ANALYZER);
+    }
+
+    public List<Word> esSegment(String query,String analyzer){
+        List<Word> result = new ArrayList<>();
+
+        AnalyzeRequest request = AnalyzeRequest.withGlobalAnalyzer(analyzer,query);
+        try{
+            AnalyzeResponse reponse = client.indices().analyze(request, RequestOptions.DEFAULT);
+            if(reponse != null){
+                List<AnalyzeResponse.AnalyzeToken> tokens = reponse.getTokens();
+                if(!CollectionUtils.isEmpty(tokens)){
+                    for(AnalyzeResponse.AnalyzeToken token:tokens){
+                        Word word = new Word(token.getTerm(),token.getType());
+                        result.add(word);
+                    }
+                }
+            }
+        }catch (IOException e){
+            log.error("call es to segment failed!",e);
+        }
+
+        return result;
     }
 
     /**

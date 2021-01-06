@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,36 @@ public class PreProceessor {
     @Autowired
     HanlpAnalyzerUtils hanlpAnalyzerUtils;
 
+    @Autowired
+    CosineSimilarity cosineSimilarity;
+
+    @Autowired
+    DiceTextSimilarity diceTextSimilarity;
+
+    @Autowired
+    EditDistanceSimilarity editDistanceSimilarity;
+
+    @Addressing
+    EuclideanDistanceTextSimilarity euclideanSimilarity;
+
+    @Autowired
+    JaccardTextSimilarity jaccardTextSimilarity;
+
+    @Autowired
+    JaroDistanceTextSimilarity jaroDistanceTextSimilarity;
+
+    @Autowired
+    LongestCommonSubsequenceSimilarity lcsSimilarity;
+
+    @Autowired
+    ManhattanDistanceTextSimilarity mhtSimilarity;
+
+    @Autowired
+    SimHashPlusHammingDistanceTextSimilarity SimHashSimilarity;
+
+    @Autowired
+    W2vSimilarity w2vSimilarity;
+
     @Test
     public void testSave() {
 
@@ -38,27 +69,27 @@ public class PreProceessor {
         docs.add("保障群体从最初的户籍低收入家庭，扩展到现在的户籍中低收入家庭、人才家庭，以及为城市提供基本公共服务的公交司机、环卫工人和先进制造业职工等群体");
         docs.add("好消息，新版租房合同来袭，在深圳租房的你有福了！");
         for (String doc : docs) {
-            TextSimilarity cosineSimilarity = new CosineSimilarity();
+//            TextSimilarity cosineSimilarity = new CosineSimilarity();
             double scoreCosine = cosineSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreCosine);
 
-            TextSimilarity diceSimilarity = new DiceTextSimilarity();
-            double scoreDice = diceSimilarity.getSimilarity(keywords, doc);
+//            TextSimilarity diceSimilarity = new DiceTextSimilarity();
+            double scoreDice = diceTextSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreDice);
-
-            TextSimilarity editDistanceSimilarity = new EditDistanceSimilarity();
+//
+//            TextSimilarity editDistanceSimilarity = new EditDistanceSimilarity();
             double scoreeditDistance = editDistanceSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreeditDistance);
-
-            TextSimilarity euclideanSimilarity = new EuclideanDistanceTextSimilarity();
+//
+//            TextSimilarity euclideanSimilarity = new EuclideanDistanceTextSimilarity();
             double scoreEuclid = euclideanSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreEuclid);
-
-            TextSimilarity jaccardTextSimilarity = new JaccardTextSimilarity();
+//
+//            TextSimilarity jaccardTextSimilarity = new JaccardTextSimilarity();
             double scorejaccard = jaccardTextSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scorejaccard);
-
-            TextSimilarity jaroDistanceTextSimilarity = new JaroDistanceTextSimilarity();
+//
+//            TextSimilarity jaroDistanceTextSimilarity = new JaroDistanceTextSimilarity();
             double scoreJaroDistance = jaroDistanceTextSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreJaroDistance);
 
@@ -66,19 +97,19 @@ public class PreProceessor {
 //            double scoreJaroWinkler = jaroWinklerDistanceSimilarity.getSimilarity(keywords, doc);
 //            System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreJaroWinkler);
 
-            TextSimilarity lcsSimilarity = new LongestCommonSubsequenceSimilarity();
+//            TextSimilarity lcsSimilarity = new LongestCommonSubsequenceSimilarity();
             double scoreLcs = lcsSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreLcs);
-
-            TextSimilarity mhtSimilarity = new ManhattanDistanceTextSimilarity();
+//
+//            TextSimilarity mhtSimilarity = new ManhattanDistanceTextSimilarity();
             double scoreMht = mhtSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreMht);
-
-            TextSimilarity SimHashSimilarity = new SimHashPlusHammingDistanceTextSimilarity();
+//
+//            TextSimilarity SimHashSimilarity = new SimHashPlusHammingDistanceTextSimilarity();
             double scoreSimHash = SimHashSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreSimHash);
-
-            TextSimilarity w2vSimilarity = new W2vSimilarity();
+//
+//            TextSimilarity w2vSimilarity = new W2vSimilarity();
             double scoreW2v = w2vSimilarity.getSimilarity(keywords, doc);
             System.out.println(keywords + " 和 " + doc + " 的相似度分值：" + scoreW2v);
         }

@@ -10,7 +10,9 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.AnalyzeRequest;
 import org.elasticsearch.client.indices.AnalyzeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
@@ -27,16 +29,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
+@Service
+@Configurable
 public class HanlpAnalyzerUtils {
     @Autowired
     private RestHighLevelClient client;
-    public static HanlpAnalyzerUtils hanlpAnalyzerUtils;
 
-    @PostConstruct
-    public void init(){
-        hanlpAnalyzerUtils = this;
-        hanlpAnalyzerUtils.client = this.client;
-    }
 
     public static final String DEFAULT_ANALYZER = "hanlp";
     public static final String INDEX_ANALYZER = "hanlp_index";

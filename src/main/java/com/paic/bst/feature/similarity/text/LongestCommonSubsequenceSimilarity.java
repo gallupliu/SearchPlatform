@@ -2,6 +2,7 @@ package com.paic.bst.feature.similarity.text;
 
 
 import com.paic.bst.feature.utils.tokenizer.Word;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * author: gallup
  * version: 1.0
  */
+@Component
 public class LongestCommonSubsequenceSimilarity extends TextSimilarity{
 
 

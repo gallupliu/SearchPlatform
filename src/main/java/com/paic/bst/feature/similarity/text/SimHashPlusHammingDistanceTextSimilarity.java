@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigInteger;
 import java.util.List;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import org.springframework.stereotype.Component;
+
 /**
  * description: SimHashPlusHammingDistanceTextSimilarity
  * date: 2020/12/31 2:41 下午
@@ -13,6 +15,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * version: 1.0
  */
 @Slf4j
+@Component
 public class SimHashPlusHammingDistanceTextSimilarity extends TextSimilarity{
 
     private int hashBitCount = 128;

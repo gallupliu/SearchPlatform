@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.paic.bst.feature.utils.tokenizer.Word;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * description: JaroDistanceTextSimilarity
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * version: 1.0
  */
 @Slf4j
+@Component
 public class JaroDistanceTextSimilarity extends TextSimilarity{
     protected String shorterText = null;
     protected String longerText = null;

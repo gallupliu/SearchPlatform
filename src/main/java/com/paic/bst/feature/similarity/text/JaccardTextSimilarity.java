@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.paic.bst.feature.utils.tokenizer.Word;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * description: JaccardTextSimilarity
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * version: 1.0
  */
 @Slf4j
+@Component
 public class JaccardTextSimilarity extends TextSimilarity{
     /**
      * 判定相似度的方式：Jaccard相似性系数

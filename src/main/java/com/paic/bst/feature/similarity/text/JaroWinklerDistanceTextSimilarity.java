@@ -3,6 +3,8 @@ package com.paic.bst.feature.similarity.text;
 
 import java.util.List;
 import com.paic.bst.feature.utils.tokenizer.Word;
+import org.springframework.stereotype.Component;
+
 /**
  * description: JaroWinklerDistanceTextSimilarity
  * 文本相似度计算
@@ -13,6 +15,7 @@ import com.paic.bst.feature.utils.tokenizer.Word;
  * author: gallup
  * version: 1.0
  */
+@Component
 public class JaroWinklerDistanceTextSimilarity extends JaroDistanceTextSimilarity{
     private static final double DEFAULT_SCALING_FACTOR = 0.1;
     private static final int MAXIMUM_CHARACTERS = 4;
