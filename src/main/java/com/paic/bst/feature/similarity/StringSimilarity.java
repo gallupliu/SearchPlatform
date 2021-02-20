@@ -144,7 +144,7 @@ public class StringSimilarity {
     }
 
     public static void main(String[] args) {
-        com.example.rankdemo.feature.StringSimilarity ss = new com.example.rankdemo.feature.StringSimilarity();
+        StringSimilarity ss = new StringSimilarity();
         List<String> featureSimi = new ArrayList<>();
         List<String> featureDistance = new ArrayList<>();
         featureDistance.add("longestCommonSeq");
