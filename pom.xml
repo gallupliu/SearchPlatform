@@ -275,7 +275,6 @@
             <groupId>com.github.vickumar1981</groupId>
             <artifactId>stringdistance_2.11</artifactId>
             <version>1.2.3</version>
-            <type>pom</type>
         </dependency>
 
     </dependencies>

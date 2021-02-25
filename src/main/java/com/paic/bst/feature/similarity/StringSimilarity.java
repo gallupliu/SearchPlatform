@@ -1,19 +1,28 @@
 package com.paic.bst.feature.similarity;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.vickumar1981.stringdistance.util.StringDistance;
+import com.oracle.tools.packager.mac.MacAppBundler;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * description: StringSimilarity
- * date: 2021/2/20 1:44 下午
+ * date: 2021/2/22 10:27 下午
  * author: gallup
  * version: 1.0
  */
+@Component
 public class StringSimilarity {
-
+    @Value("")
+    String charEmbedPath;
     public List<Double> getSimilarity(String query, String item, List<String> features) {
         List<Double> results = new ArrayList<>();
         if(StringUtils.isBlank(query) || StringUtils.isBlank(item)){
@@ -43,7 +52,7 @@ public class StringSimilarity {
                         Double jaccard = StringDistance.jaccard(query, item);
                         results.add(jaccard);
                         break;
-                    case "jaro":
+                    case "jaro_similarity":
                         Double jaro = StringDistance.jaro(query, item);
                         results.add(jaro);
                         break;
@@ -113,15 +122,15 @@ public class StringSimilarity {
                         Integer damerauDist = StringDistance.damerauDist(query, item);
                         results.add(damerauDist);
                         break;
-                    case "hammingDist":
+                    case "hamming_distance":
                         Integer hammingDist = StringDistance.hammingDist(query, item);
                         results.add(hammingDist);
                         break;
-                    case "levenshteinDist":
+                    case "levenshtein_distance":
                         Integer levenshteinDist = StringDistance.levenshteinDist(query, item);
                         results.add(levenshteinDist);
                         break;
-                    case "longestCommonSeq":
+                    case "lcs":
                         Integer longestCommonSeq = StringDistance.longestCommonSeq(query, item);
                         results.add(longestCommonSeq);
                         break;
@@ -143,22 +152,75 @@ public class StringSimilarity {
         return results;
     }
 
-    public static void main(String[] args) {
+    public Map parseJson(String filepath) throws IOException {
+        BufferedReader reader = null;
+        String laststr = "";
+        FileInputStream fileInputStream = new FileInputStream(filepath);
+        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "GB2312");
+        reader = new BufferedReader(inputStreamReader);
+        String tempString = null;
+        while ((tempString = reader.readLine()) != null) {
+            laststr += tempString;
+        }
+        reader.close();
+        Map maps =  JSONObject.parseObject(laststr);
+        return maps;
+    }
+
+
+
+
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         StringSimilarity ss = new StringSimilarity();
+
+        try{
+            Map map = ss.parseJson("/Users/gallup/study/SearchPlatform/src/main/resources/char.json");
+            System.out.println("error");
+        }catch (IOException e){
+            System.out.println("error");
+        }
+
         List<String> featureSimi = new ArrayList<>();
         List<String> featureDistance = new ArrayList<>();
-        featureDistance.add("longestCommonSeq");
+        featureDistance.add("lcs");
+        featureDistance.add("levenshtein_distance");
+        featureDistance.add("hamming_distance");
         featureSimi.add("cosine");
         featureSimi.add("hamming");
-        featureSimi.add("jaro");
+        featureSimi.add("jaro_similarity");
         featureSimi.add("jaroWinkler");
         featureSimi.add("damerau");
 //        List<Double> result = ss.getSimilarity("hello", "chello", featureSimi);
 //        List<Integer> res = ss.getDistance("martha", "marhta", featureDistance);
-        List<Double> result = ss.getSimilarity("hello", "", featureSimi);
-        List<Integer> res = ss.getDistance("martha", "", featureDistance);
-        System.out.println(result);
-        System.out.println(res);
+//        List<Double> result = ss.getSimilarity("hello", "", featureSimi);
+//        List<Integer> res = ss.getDistance("martha", "", featureDistance);
+        //        List<Integer> res = ss.getDistance("避孕药", "避孕套", featureDistance);
+        long start,end;
+        start = System.currentTimeMillis();
+
+        List<String> querys = new ArrayList<>();
+        List<String> titiles = new ArrayList<>();
+        for(int i =0;i<300;i++) {
+            querys.add("六味地黄丸360粒");
+            titiles.add("张仲景六味地黄丸360粒");
+        }
+
+        System.out.println("开始时间：" + start);
+        for(int i = 0;i <querys.size();i++){
+//            List<Double> result = ss.getSimilarity(querys.get(i), titiles.get(i), featureSimi);
+            List<Integer> res = ss.getDistance(querys.get(i), titiles.get(i), featureDistance);
+//            System.out.println(result);
+            System.out.println(res);
+        }
+
+
+        end = System.currentTimeMillis();
+        System.out.println("结束时间：" + end);
+        System.out.println("运行时间：" + (end - start) + "(ms)");
+
+
+
+
 
     }
 }
